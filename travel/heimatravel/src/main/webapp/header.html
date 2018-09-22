@@ -1,0 +1,77 @@
+<script src="js/getParameter.js"></script>
+<script>
+    $(function () {
+        var url="/travel/user/welcome";
+        $.get(url,function (msg) {
+                if(msg.flag){
+                    $(".login_out").html("");
+                    $("#user_welcome").html(msg.msg);
+                }else {
+                    $(".login").html("");
+                }
+        },"json")
+        $.get("/travel/catagory/findcata",function (msg) {
+            var html=' <li class="nav-active"><a href="index.html">首页</a></li>';
+            $.each(msg,function () {
+                html+='<li><a href="route_list.html?cid='+this.cid+'">'+this.cname+'</a></li>';
+            })
+            html+=' <li><a href="favoriterank.html">收藏排行榜</a></li>';
+            $("#catagory").html(html);
+        },"json")/*我球球你不要忘记json*/
+
+        $("#search_button").click(function () {
+            var val = $("#search_input").val();
+            location.href='http://localhost:8088/travel/route_list.html?cid='+getParameter("cid")+'&search='+val;
+
+        })
+
+    })
+</script>
+<!-- 头部 start -->
+    <header id="header">
+        <div class="top_banner">
+            <img src="images/top_banner.jpg" alt="">
+        </div>
+        <div class="shortcut">
+            <!-- 未登录状态  -->
+            <div class="login_out">
+                <a href="login.html">登录</a>
+                <a href="register.html">注册</a>
+            </div>
+            <!-- 登录状态  -->
+            <div class="login">
+            	
+                <span id="user_welcome"></span>
+                <a href="myfavorite.html" class="collection">我的收藏</a>
+                <a href="/travel/user/exit">退出</a>
+            </div>
+        </div>
+        <div class="header_wrap">
+            <div class="topbar">
+                <div class="logo">
+                    <a href="/"><img src="images/logo.jpg" alt=""></a>
+                </div>
+                <div class="search">
+                    <input name="" id="search_input" type="text" placeholder="请输入路线名称" class="search_input" autocomplete="off">
+                    <a href="javascript:;" id="search_button" class="search-button">搜索</a>
+                </div>
+                <div class="hottel">
+                    <div class="hot_pic">
+                        <img src="images/hot_tel.jpg" alt="">
+                    </div>
+                    <div class="hot_tel">
+                        <p class="hot_time">客服热线(9:00-6:00)</p>
+                        <p class="hot_num">400-618-9090</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- 头部 end -->
+     <!-- 首页导航 -->
+    <div class="navitem">
+        <ul id="catagory" class="nav">
+
+        </ul>
+    </div>
+    
